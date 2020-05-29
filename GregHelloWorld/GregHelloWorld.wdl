@@ -1,4 +1,4 @@
-workflow FastqToUbamSingleSample {
+workflow GregHelloWorld {
 
     Array[File] fastq_pair
    
