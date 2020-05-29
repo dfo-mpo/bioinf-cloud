@@ -5,7 +5,7 @@
   "FastqToUbamSingleSample.platform": "illumina",
   "FastqToUbamSingleSample.platform_unit": "GrA.chr21",
   "FastqToUbamSingleSample.fastq_pair": [
-    "/kesselrunstorage/chr21/inputs/chr21.read1.fq.gz",
-    "/kesselrunstorage/chr21/inputs/chr21.read2.fq.gz"
+    "/kesselrunstorage/inputs/chr21/inputs/chr21.read1.fq.gz",
+    "/kesselrunstorage/inputs/chr21/inputs/chr21.read2.fq.gz"
   ]
 }
