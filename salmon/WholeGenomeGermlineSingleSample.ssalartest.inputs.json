@@ -1,0 +1,33 @@
+{
+  "WholeGenomeGermlineSingleSample.sample_and_unmapped_bams": {
+    "sample_name": "KEN1607",
+    "base_file_name": "KEN1607",
+    "flowcell_unmapped_bams": [
+    "/kesselrunstorage/salmon/KEN1607.unmapped.bam"
+    ],
+    "final_gvcf_base_name": "KEN1607",
+    "unmapped_bam_suffix": ".bam"
+  },
+
+  "WholeGenomeGermlineSingleSample.references": {
+    "contamination_sites_ud": "/msgenpublicdata/inputs/broad-references/hg38/v0/Homo_sapiens_assembly38.contam.UD",
+    "contamination_sites_bed": "/msgenpublicdata/inputs/broad-references/hg38/v0/Homo_sapiens_assembly38.contam.bed",
+    "contamination_sites_mu": "/msgenpublicdata/inputs/broad-references/hg38/v0/Homo_sapiens_assembly38.contam.mu",
+    "calling_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
+    "haplotype_scatter_count": 10,
+    "break_bands_at_multiples_of": 100000,
+    "reference_fasta" : {
+        "ref_dict": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.dict",
+        "ref_fasta": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa",
+        "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai"
+    },
+    "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
+  },
+
+  "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
+
+  "WholeGenomeGermlineSingleSample.papi_settings": {
+    "preemptible_tries": 3,
+    "agg_preemptible_tries": 3
+  }
+}

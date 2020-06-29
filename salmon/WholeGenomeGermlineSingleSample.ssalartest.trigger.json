@@ -1,0 +1,6 @@
+{
+    "WorkflowUrl": "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/WholeGenomeGermlineSingleSample.wdl",
+    "WorkflowInputsUrl": "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/WholeGenomeGermlineSingleSample.ssalartest.inputs.json",
+    "WorkflowOptionsUrl": null,
+    "WorkflowDependenciesUrl": null
+}
