@@ -29,14 +29,14 @@ version 1.0
 ## licensing information pertaining to the included programs.
 
 # Local import
-import "/kesselrunstorage/salmon/workflow/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
-import "/kesselrunstorage/salmon/workflow/tasks/AggregatedBamQC.wdl" as AggregatedQC
-import "/kesselrunstorage/salmon/workflow/tasks/GermlineVariantDiscovery.wdl" as Calling
-import "/kesselrunstorage/salmon/workflow/tasks/Qc.wdl" as QC
-import "/kesselrunstorage/salmon/workflow/tasks/Utilities.wdl" as Utils
-import "/kesselrunstorage/salmon/workflow/tasks/BamToCram.wdl" as ToCram
-import "/kesselrunstorage/salmon/workflow/tasks/BamToGvcf.wdl" as ToGvcf
-import "/kesselrunstorage/salmon/workflow/structs/GermlineStructs.wdl"
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/UnmappedBamToAlignedBam.wdl" as ToBam
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/AggregatedBamQC.wdl" as AggregatedQC
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/GermlineVariantDiscovery.wdl" as Calling
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/BamToCram.wdl" as ToCram
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/BamToGvcf.wdl" as ToGvcf
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
 
 # Git URL import
 #import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/tasks/UnmappedBamToAlignedBam.wdl" as ToBam

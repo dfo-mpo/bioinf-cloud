@@ -16,10 +16,10 @@ version 1.0
 ## licensing information pertaining to the included programs.
 
 # Local Import
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/tasks/Alignment.wdl" as Alignment
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/tasks/BamProcessing.wdl" as Processing
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/tasks//Utilities.wdl" as Utils
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/structs/GermlineStructs.wdl" as Structs
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Alignment.wdl" as Alignment
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/BamProcessing.wdl" as Processing
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks//Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl" as Structs
 
 # Git URL Import
 #import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/tasks/Alignment.wdl" as Alignment

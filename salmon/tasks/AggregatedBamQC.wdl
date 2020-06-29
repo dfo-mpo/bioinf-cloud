@@ -16,8 +16,8 @@ version 1.0
 ## licensing information pertaining to the included programs.
 
 # Local import
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/tasks/Qc.wdl" as QC
-import "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/structs/GermlineStructs.wdl"
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
 
 # Git URL import
 #import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
