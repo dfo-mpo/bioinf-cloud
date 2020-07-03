@@ -1,6 +1,6 @@
 {
-    "WorkflowUrl": "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/WholeGenomeGermlineSingleSample.wdl",
-    "WorkflowInputsUrl": "https://kesselrunstorage.blob.core.windows.net/salmon/workflow/WholeGenomeGermlineSingleSample.ssalartest.inputs.json",
+    "WorkflowUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/workflow/WholeGenomeGermlineSingleSample.wdl",
+    "WorkflowInputsUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/workflow/WholeGenomeGermlineSingleSample.ssalartest.inputs.json",
     "WorkflowOptionsUrl": null,
     "WorkflowDependenciesUrl": null
 }

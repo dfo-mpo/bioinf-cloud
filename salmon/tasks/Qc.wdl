@@ -33,9 +33,10 @@ task CollectQualityYieldMetrics {
       OUTPUT=~{metrics_filename}
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     disk: disk_size + " GB"
     memory: "3 GB"
+    preemptible: true
     maxRetries: preemptible_tries
   }
   output {
@@ -71,9 +72,10 @@ task CollectUnsortedReadgroupBamQualityMetrics {
     touch ~{output_bam_prefix}.insert_size_histogram.pdf
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "7 GB"
     disk: disk_size + " GB"
+    preemptible: true
     maxRetries: preemptible_tries
   }
   output {
@@ -123,9 +125,10 @@ task CollectReadgroupBamQualityMetrics {
       METRIC_ACCUMULATION_LEVEL=READ_GROUP
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "7 GB"
     disk: disk_size + " GB"
+    preemptible: true
     maxRetries: preemptible_tries
   }
   output {
@@ -177,9 +180,10 @@ task CollectAggregationMetrics {
       METRIC_ACCUMULATION_LEVEL=LIBRARY
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "7 GB"
     disk: disk_size + " GB"
+    preemptible: true
     maxRetries: preemptible_tries
   }
   output {
@@ -198,6 +202,91 @@ task CollectAggregationMetrics {
     File error_summary_metrics = "~{output_bam_prefix}.error_summary_metrics"
   }
 }
+
+# Check that the fingerprints of separate readgroups all match
+##task CrossCheckFingerprints {
+#  input {
+#    Array[File] input_bams
+#    Array[File] input_bam_indexes
+#    File? haplotype_database_file
+#    String metrics_filename
+#    Float total_input_size
+#    Int preemptible_tries
+#    Float lod_threshold
+#    String cross_check_by
+#  }
+
+#  Int disk_size = ceil(total_input_size) + 20
+
+#  command <<<
+#    java -Dsamjdk.buffer_size=131072 \
+#      -XX:GCTimeLimit=50 -XX:GCHeapFreeLimit=10 -Xms2000m \
+#      -jar /usr/gitc/picard.jar \
+#      CrosscheckFingerprints \
+#      OUTPUT=~{metrics_filename} \
+#      HAPLOTYPE_MAP=~{haplotype_database_file} \
+#      EXPECT_ALL_GROUPS_TO_MATCH=true \
+#      INPUT=~{sep=' INPUT=' input_bams} \
+#      LOD_THRESHOLD=~{lod_threshold} \
+#      CROSSCHECK_BY=~{cross_check_by}
+#  >>>
+#  runtime {
+#    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+#    preemptible: true
+#    maxRetries: preemptible_tries
+#    memory: "2 GB"
+#    disk: disk_size + " GB"
+#  }
+#  output {
+#    File cross_check_fingerprints_metrics = "~{metrics_filename}"
+#  }
+#}
+
+# Check that the fingerprint of the sample BAM matches the sample array
+#task CheckFingerprint {
+#  input {
+#    File input_bam
+#    File input_bam_index
+#    String output_basename
+#    File? haplotype_database_file
+#    File? genotypes
+#    File? genotypes_index
+#    String sample
+#    Int preemptible_tries
+#  }
+
+#  Int disk_size = ceil(size(input_bam, "GB")) + 20
+  # Picard has different behavior depending on whether or not the OUTPUT parameter ends with a '.', so we are explicitly
+  #   passing in where we want the two metrics files to go to avoid any potential confusion.
+#  String summary_metrics_location = "~{output_basename}.fingerprinting_summary_metrics"
+#  String detail_metrics_location = "~{output_basename}.fingerprinting_detail_metrics"
+
+#  command <<<
+#    java -Dsamjdk.buffer_size=131072 \
+#      -XX:GCTimeLimit=50 -XX:GCHeapFreeLimit=10 -Xms2g  \
+#      -jar /usr/gitc/picard.jar \
+#      CheckFingerprint \
+#      INPUT=~{input_bam} \
+#      SUMMARY_OUTPUT=~{summary_metrics_location} \
+#      DETAIL_OUTPUT=~{detail_metrics_location} \
+#      GENOTYPES=~{genotypes} \
+#      HAPLOTYPE_MAP=~{haplotype_database_file} \
+#      SAMPLE_ALIAS="~{sample}" \
+#      IGNORE_READ_GROUPS=true
+                     
+#  >>>
+# runtime {
+#    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+#    preemptible: true
+#    maxRetries: preemptible_tries
+#    memory: "3 GB"
+#    disk: disk_size + " GB"
+#  }
+#  output {
+#    File summary_metrics = summary_metrics_location
+#    File detail_metrics = detail_metrics_location
+#  }
+#}
 
 task CheckPreValidation {
   input {
@@ -236,10 +325,11 @@ task CheckPreValidation {
 
   >>>
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
-    docker: "python:2.7"
-    memory: "2 GB"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
     maxRetries: preemptible_tries
+    docker: "us.gcr.io/broad-gotc-prod/python:2.7"
+    memory: "2 GB"
   }
   output {
     Float duplication_rate = read_float("duplication_value.txt")
@@ -260,13 +350,18 @@ task ValidateSamFile {
     Array[String]? ignore
     Boolean? is_outlier_data
     Int preemptible_tries
+    Int memory_multiplier = 1
+    Int additional_disk = 20							
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + 20
+  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + additional_disk
+
+  Int memory_size = ceil(7 * memory_multiplier)
+  Int java_memory_size = (memory_size - 1) * 1000
 
   command {
-    java -Xms6000m -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       ValidateSamFile \
       INPUT=~{input_bam} \
       OUTPUT=~{report_filename} \
@@ -278,10 +373,11 @@ task ValidateSamFile {
       IS_BISULFITE_SEQUENCED=false
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
-    memory: "7 GB"
-    disk: disk_size + " GB"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
     maxRetries: preemptible_tries
+    memory: "~{memory_size} GB"
+    disk: disk_size + " GB"
   }
   output {
     File report = "~{report_filename}"
@@ -317,10 +413,11 @@ task CollectWgsMetrics {
       READ_LENGTH=~{read_length}
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
+    maxRetries: preemptible_tries
     memory: "3 GB"
     disk: disk_size + " GB"
-    maxRetries: preemptible_tries
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -338,16 +435,18 @@ task CollectRawWgsMetrics {
     File ref_fasta_index
     Int read_length
     Int preemptible_tries
+    Int memory_multiplier = 1
+    Int additional_disk = 20														
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + 20
+  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + additional_disk
 
-  String main_memory = if(disk_size < 110) then "5 GB" else "7 GB"
-  String java_memory = if(disk_size < 110) then "-Xms4000m" else "-Xms6000m"
+  Int memory_size = ceil((if (disk_size < 110) then 5 else 7) * memory_multiplier)
+  String java_memory_size = (memory_size - 1) * 1000
 
   command {
-    java ${java_memory} -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       CollectRawWgsMetrics \
       INPUT=~{input_bam} \
       VALIDATION_STRINGENCY=SILENT \
@@ -359,10 +458,11 @@ task CollectRawWgsMetrics {
       READ_LENGTH=~{read_length}
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
-    memory: main_memory
-    disk: disk_size + " GB"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
     maxRetries: preemptible_tries
+    memory: "~{memory_size} GB"
+    disk: disk_size + " GB"
   }
   output {
     File metrics = "~{metrics_filename}"
@@ -376,23 +476,24 @@ task CollectHsMetrics {
     File ref_fasta
     File ref_fasta_index
     String metrics_filename
-    File target_interval_list
-    File bait_interval_list
+#    File target_interval_list
+#    File bait_interval_list
     Int preemptible_tries
+    Int memory_multiplier = 1
+    Int additional_disk = 20														
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + 20
-
+  Int disk_size = ceil(size(input_bam, "GB") + ref_size) + additional_disk
   # Try to fit the input bam into memory, within reason.
   Int rounded_bam_size = ceil(size(input_bam, "GB") + 0.5)
-  Int java_mem_size = if (rounded_bam_size > 9) then 9 else rounded_bam_size
-  Int final_java_mem_size = if (java_mem_size < 2) then 2 else java_mem_size
-  Int mem_size = final_java_mem_size + 1
+  Int rounded_memory_size = ceil((if (rounded_bam_size > 10) then 10 else rounded_bam_size) * memory_multiplier)
+  Int memory_size = if rounded_memory_size < 7 then 7 else rounded_memory_size
+  Int java_memory_size = (memory_size - 1) * 1000
 
   # There are probably more metrics we want to generate with this tool
   command {
-    java -Xms~{final_java_mem_size * 1000}m -jar /usr/gitc/picard.jar \
+    java -Xms~{java_memory_size}m -jar /usr/gitc/picard.jar \
       CollectHsMetrics \
       INPUT=~{input_bam} \
       REFERENCE_SEQUENCE=~{ref_fasta} \
@@ -406,10 +507,11 @@ task CollectHsMetrics {
   }
 
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
-    memory: "~{mem_size} GB"
-    disk: disk_size + " GB"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
     maxRetries: preemptible_tries
+    memory: "~{memory_size} GB"
+    disk: disk_size + " GB"
   }
 
   output {
@@ -435,45 +537,53 @@ task CalculateReadGroupChecksum {
       OUTPUT=~{read_group_md5_filename}
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
+    maxRetries: preemptible_tries
     memory: "2 GB"
     disk: disk_size + " GB"
-    maxRetries: preemptible_tries
   }
   output {
     File md5_file = "~{read_group_md5_filename}"
   }
 }
 
-# Validate a GVCF with -gvcf specific validation
-task ValidateGVCF {
+# Validate a (g)VCF with -gvcf specific validation
+task ValidateVCF {
   input {
     File input_vcf
     File input_vcf_index
     File ref_fasta
     File ref_fasta_index
     File ref_dict
+  #  File dbsnp_vcf
+  #  File dbsnp_vcf_index
     File calling_interval_list
     Int preemptible_tries
+    Boolean is_gvcf = true
     String gatk_docker = "us.gcr.io/broad-gatk/gatk:4.0.10.1"
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
-  Int disk_size = ceil(size(input_vcf, "GB") + ref_size) + 20
+  Int disk_size = ceil(size(input_vcf, "GB") + size(dbsnp_vcf, "GB") + ref_size) + 20
 
   command {
-    gatk --java-options -Xms9000m \
+    gatk --java-options -Xms6000m \
       ValidateVariants \
       -V ~{input_vcf} \
       -R ~{ref_fasta} \
       -L ~{calling_interval_list} \
-      -gvcf \
+      ~{true="-gvcf" false="" is_gvcf} \
       --validation-type-to-exclude ALLELES \
+ 
   }
   runtime {
     docker: gatk_docker
-    memory: "10000 MB"
-    disk: disk_size + " GB"
+    preemptible: true
     maxRetries: preemptible_tries
+    memory: "7000 MB"
+    disk: disk_size + " GB"
   }
 }
+
+

@@ -15,22 +15,21 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-# Local import
+#import "./Qc.wdl" as QC
+#import "../structs/GermlineStructs.wdl"
+
 import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Qc.wdl" as QC
 import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
-
-# Git URL import
-#import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
-#import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # WORKFLOW DEFINITION
 workflow AggregatedBamQC {
 input {
+    File base_recalibrated_bam
+    File base_recalibrated_bam_index
     String base_name
     String sample_name
     String recalibrated_bam_base_name
-    String base_recalibrated_bam
-    String base_recalibrated_bam_index
+    File? haplotype_database_file
     GermlineSingleSampleReferences references
     PapiSettings papi_settings
   }
@@ -57,6 +56,21 @@ input {
       ref_fasta = references.reference_fasta.ref_fasta,
       ref_fasta_index = references.reference_fasta.ref_fasta_index,
       preemptible_tries = papi_settings.agg_preemptible_tries
+  }
+
+  if (defined(haplotype_database_file) && defined(references.fingerprint_genotypes_file)) {
+    # Check the sample BAM fingerprint against the sample array
+    call QC.CheckFingerprint as CheckFingerprint {
+      input:
+        input_bam = base_recalibrated_bam,
+        input_bam_index = base_recalibrated_bam_index,
+        haplotype_database_file = haplotype_database_file,
+        genotypes = references.fingerprint_genotypes_file,
+        genotypes_index = references.fingerprint_genotypes_index,
+        output_basename = base_name,
+        sample = sample_name,
+        preemptible_tries = papi_settings.agg_preemptible_tries
+    }
   }
 
   # Generate a checksum per readgroup in the final BAM
@@ -89,5 +103,8 @@ input {
     File agg_quality_distribution_pdf = CollectAggregationMetrics.quality_distribution_pdf
     File agg_quality_distribution_metrics = CollectAggregationMetrics.quality_distribution_metrics
     File agg_error_summary_metrics = CollectAggregationMetrics.error_summary_metrics
+
+    File? fingerprint_summary_metrics = CheckFingerprint.summary_metrics
+    File? fingerprint_detail_metrics = CheckFingerprint.detail_metrics
   }
 }

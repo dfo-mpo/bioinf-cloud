@@ -1,4 +1,5 @@
 version 1.0
+
 ## Copyright Broad Institute, 2018
 ##
 ## This WDL defines tasks used for alignment of human whole-genome or exome sequencing data.
@@ -14,11 +15,9 @@ version 1.0
 ## page at https://hub.docker.com/r/broadinstitute/genomes-in-the-cloud/ for detailed
 ## licensing information pertaining to the included programs.
 
-# Local Import
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
+#import "../structs/GermlineStructs.wdl"
 
-# Git URL Import
-#import "https://raw.githubusercontent.com/microsoft/five-dollar-genome-analysis-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
 
 # Get version of BWA
 task GetBwaVersion {
@@ -30,7 +29,7 @@ task GetBwaVersion {
     sed 's/Version: //'
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
     memory: "1 GB"
   }
   output {
@@ -57,7 +56,7 @@ task SamToFastqAndBwaMemAndMba {
 
   Float unmapped_bam_size = size(input_bam, "GB")
   Float ref_size = size(reference_fasta.ref_fasta, "GB") + size(reference_fasta.ref_fasta_index, "GB") + size(reference_fasta.ref_dict, "GB")
-  Float bwa_ref_size = ref_size
+  Float bwa_ref_size = ref_size + size(reference_fasta.ref_alt, "GB") + size(reference_fasta.ref_amb, "GB") + size(reference_fasta.ref_ann, "GB") + size(reference_fasta.ref_bwt, "GB") + size(reference_fasta.ref_pac, "GB") + size(reference_fasta.ref_sa, "GB")
   # Sometimes the output is larger than the input, or a task can spill to disk.
   # In these cases we need to account for the input (1) and the output (1.5) or the input(1), the output(1), and spillage (.5).
   Float disk_multiplier = 2.5
@@ -69,6 +68,8 @@ task SamToFastqAndBwaMemAndMba {
 
     # set the bash variable needed for the command-line
     bash_ref_fasta=~{reference_fasta.ref_fasta}
+    # if reference_fasta.ref_alt has data in it,
+    if [ -s ~{reference_fasta.ref_alt} ]; then
       java -Xms1000m -Xmx1000m -jar /usr/gitc/picard.jar \
         SamToFastq \
         INPUT=~{input_bam} \
@@ -105,13 +106,21 @@ task SamToFastqAndBwaMemAndMba {
         UNMAP_CONTAMINANT_READS=true \
         ADD_PG_TAG_TO_READS=false
 
+      grep -m1 "read .* ALT contigs" ~{output_bam_basename}.bwa.stderr.log | \
+      grep -v "read 0 ALT contigs"
+
+    # else reference_fasta.ref_alt is empty or could not be found
+    else
+      exit 1;
+    fi
   >>>
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
+    maxRetries: preemptible_tries
     memory: "14 GB"
     cpu: "16"
     disk: disk_size + " GB"
-    maxRetries: preemptible_tries
   }
   output {
     File output_bam = "~{output_bam_basename}.bam"
@@ -148,9 +157,10 @@ task SamSplitter {
     Array[File] split_bams = glob("output_dir/*.bam")
   }
   runtime {
-    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.1-1540490856"
+    docker: "us.gcr.io/broad-gotc-prod/genomes-in-the-cloud:2.4.3-1564508330"
+    preemptible: true
+    maxRetries: preemptible_tries
     memory: "3.75 GB"
     disk: disk_size + " GB"
-    maxRetries: preemptible_tries
   }
 }
