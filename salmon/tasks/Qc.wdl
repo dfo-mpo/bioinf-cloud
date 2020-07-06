@@ -565,7 +565,7 @@ task ValidateVCF {
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
-  Int disk_size = ceil(size(input_vcf, "GB") + size(dbsnp_vcf, "GB") + ref_size) + 20
+  Int disk_size = ceil(size(input_vcf, "GB") + ref_size) + 20
 
   command {
     gatk --java-options -Xms6000m \

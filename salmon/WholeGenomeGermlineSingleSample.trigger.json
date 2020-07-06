@@ -1,6 +1,6 @@
 {
-  "WorkflowUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/workflow/WholeGenomeGermlineSingleSample.wdl",
-  "WorkflowInputsUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/workflow/WholeGenomeGermlineSingleSample.inputs.json",
+  "WorkflowUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/WholeGenomeGermlineSingleSample.wdl",
+  "WorkflowInputsUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/WholeGenomeGermlineSingleSample.inputs.json",
   "WorkflowOptionsUrl": null,
   "WorkflowDependenciesUrl": null
 }

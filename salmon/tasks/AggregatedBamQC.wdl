@@ -18,8 +18,8 @@ version 1.0
 #import "./Qc.wdl" as QC
 #import "../structs/GermlineStructs.wdl"
 
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Qc.wdl" as QC
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl"
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/tasks/Qc.wdl" as QC
+import "https://raw.githubusercontent.com/microsoft/gatk4-genome-processing-pipeline-azure/az1.1.0/structs/GermlineStructs.wdl"
 
 # WORKFLOW DEFINITION
 workflow AggregatedBamQC {

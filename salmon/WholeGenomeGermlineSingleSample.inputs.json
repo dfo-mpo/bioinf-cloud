@@ -8,7 +8,6 @@
     "final_gvcf_base_name": "KEN1607",
     "unmapped_bam_suffix": ".bam"
   },
-
   "WholeGenomeGermlineSingleSample.references": {
     "calling_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
     "haplotype_scatter_count": 10,
@@ -16,13 +15,11 @@
     "reference_fasta": {
       "ref_dict": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.dict",
       "ref_fasta": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa",
-      "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai",
+      "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai"
     },
     "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
   },
-
   "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
-
   "WholeGenomeGermlineSingleSample.papi_settings": {
     "preemptible_tries": 3,
     "agg_preemptible_tries": 3

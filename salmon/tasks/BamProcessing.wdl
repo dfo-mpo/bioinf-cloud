@@ -227,8 +227,8 @@ task BaseRecalibrator {
   }
 
   Float ref_size = size(ref_fasta, "GB") + size(ref_fasta_index, "GB") + size(ref_dict, "GB")
-  Float dbsnp_size = size(dbsnp_vcf, "GB")
-  Int disk_size = ceil(size(input_bam, "GB") + size(input_bam_index, "GB") + ref_size + dbsnp_size) + 20
+  #Float dbsnp_size = size(dbsnp_vcf, "GB")
+  Int disk_size = ceil(size(input_bam, "GB") + size(input_bam_index, "GB") + ref_size) + 20
 
   parameter_meta {
     input_bam: {
