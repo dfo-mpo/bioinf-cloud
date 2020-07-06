@@ -20,9 +20,9 @@ version 1.0
 #import "./Utilities.wdl" as Utils
 #import "../structs/GermlineStructs.wdl" as Structs
 
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/Alignment.wdl" as Alignment
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/BamProcessing.wdl" as Processing
-import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/Utilities.wdl" as Utils
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Alignment.wdl" as Alignment
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/BamProcessing.wdl" as Processing
+import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/tasks/Utilities.wdl" as Utils
 import "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/structs/GermlineStructs.wdl" as Structs
 
 workflow SplitLargeReadGroup {
