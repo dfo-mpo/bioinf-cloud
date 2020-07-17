@@ -15,7 +15,8 @@
     "reference_fasta": {
       "ref_dict": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.dict",
       "ref_fasta": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa",
-      "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai"
+      "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai",
+      "ref_sa": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.sa"
     },
     "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
   },

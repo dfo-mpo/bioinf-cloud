@@ -1,5 +1,5 @@
 {
-  "WorkflowUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/WholeGenomeGermlineSingleSample.wdl",
+  "WorkflowUrl": "https://raw.githubusercontent.com/ducatiMonster916/gatk4-genome-processing-pipeline-azure/master-azure/WholeGenomeGermlineSingleSample.wdl",
   "WorkflowInputsUrl": "https://raw.githubusercontent.com/dfo-mpo/bioinf-cloud/master/salmon/WholeGenomeGermlineSingleSample.inputs.json",
   "WorkflowOptionsUrl": null,
   "WorkflowDependenciesUrl": null
