@@ -16,7 +16,11 @@
       "ref_dict": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.dict",
       "ref_fasta": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa",
       "ref_fasta_index": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.fai",
-      "ref_sa": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.sa"
+      "ref_sa": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.sa",
+      "ref_amb": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.amb",
+      "ref_bwt": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.bwt",
+      "ref_ann": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.ann",
+      "ref_pac": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.pac"
     },
     "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
   },
