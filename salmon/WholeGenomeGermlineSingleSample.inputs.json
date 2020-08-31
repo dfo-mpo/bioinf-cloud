@@ -22,7 +22,7 @@
       "ref_ann": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.ann",
       "ref_pac": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa.pac"
     },
-    "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
+    "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE.interval_list"
   },
   "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "/kesselrunstorage/salmon/reference/CIGENE.interval_list",
   "WholeGenomeGermlineSingleSample.papi_settings": {
