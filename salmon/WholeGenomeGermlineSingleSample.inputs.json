@@ -9,7 +9,7 @@
     "unmapped_bam_suffix": ".bam"
   },
   "WholeGenomeGermlineSingleSample.references": {
-    "calling_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
+    "calling_interval_list": "/kesselrunstorage/salmon/reference/CIGENE.interval_list",
     "haplotype_scatter_count": 10,
     "break_bands_at_multiples_of": 100000,
     "reference_fasta": {
@@ -24,7 +24,7 @@
     },
     "evaluation_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list"
   },
-  "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_interval_list",
+  "WholeGenomeGermlineSingleSample.wgs_coverage_interval_list": "/kesselrunstorage/salmon/reference/CIGENE.interval_list",
   "WholeGenomeGermlineSingleSample.papi_settings": {
     "preemptible_tries": 3,
     "agg_preemptible_tries": 3
