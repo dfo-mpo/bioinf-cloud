@@ -10,8 +10,8 @@
   },
   "WholeGenomeGermlineSingleSample.references": {
     "calling_interval_list": "/kesselrunstorage/salmon/reference/CIGENE_ssa_contigs_only_new.interval_list",
-    "haplotype_scatter_count": 10,
-    "break_bands_at_multiples_of": 100000,
+    "haplotype_scatter_count": 50,
+    "break_bands_at_multiples_of": 1000000,
     "reference_fasta": {
       "ref_dict": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.dict",
       "ref_fasta": "/kesselrunstorage/salmon/reference/CIGENE-ICSASG_v2.fa",
